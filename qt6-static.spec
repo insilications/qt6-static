@@ -11,39 +11,21 @@ Source0  : file:///insilications/apps/qt5.tar.gz
 Summary  : Import various well-known 3D model formats in an uniform manner.
 Group    : Development/Tools
 License  : Apache-2.0 GPL-2.0 GPL-2.0+ GPL-3.0 MIT
-Requires: Jinja2
-Requires: MarkupSafe
-Requires: PyYAML
-Requires: antlr4-python3-runtime
-Requires: black
-Requires: click
-Requires: humanfriendly
-Requires: mypy
-Requires: portalocker
-Requires: pyparsing
-Requires: six
-Requires: sympy
-BuildRequires : Jinja2
-BuildRequires : MarkupSafe
-BuildRequires : PyYAML
 BuildRequires : Sphinx
 BuildRequires : Vulkan-Headers-dev
 BuildRequires : Vulkan-Loader-dev
 BuildRequires : Vulkan-Tools
 BuildRequires : Z3-dev
 BuildRequires : Z3-staticdev
-BuildRequires : antlr4-python3-runtime
 BuildRequires : apache-ant
 BuildRequires : assimp
 BuildRequires : assimp-dev
 BuildRequires : assimp-staticdev
-BuildRequires : black
 BuildRequires : buildreq-cmake
 BuildRequires : buildreq-configure
 BuildRequires : buildreq-distutils3
 BuildRequires : buildreq-golang
 BuildRequires : buildreq-scons
-BuildRequires : click
 BuildRequires : cmake-dev
 BuildRequires : cups-dev
 BuildRequires : dbus-dev
@@ -68,14 +50,16 @@ BuildRequires : glib
 BuildRequires : glib-dev
 BuildRequires : glibc-dev
 BuildRequires : glibc-staticdev
+BuildRequires : gtk+
 BuildRequires : gtk+-data
+BuildRequires : gtk+-dev
 BuildRequires : gtk+-lib
+BuildRequires : gtk3-dev
 BuildRequires : gtk3-lib
 BuildRequires : harfbuzz
 BuildRequires : harfbuzz-dev
 BuildRequires : harfbuzz-lib
 BuildRequires : harfbuzz-staticdev
-BuildRequires : humanfriendly
 BuildRequires : icu4c-lib
 BuildRequires : libX11
 BuildRequires : libX11-data
@@ -136,7 +120,6 @@ BuildRequires : mariadb-dev
 BuildRequires : mesa
 BuildRequires : mesa-dev
 BuildRequires : mesa-lib
-BuildRequires : mypy
 BuildRequires : ncurses-dev
 BuildRequires : ninja
 BuildRequires : nvidia
@@ -150,8 +133,11 @@ BuildRequires : openssl-dev
 BuildRequires : openssl-staticdev
 BuildRequires : p11-kit
 BuildRequires : p11-kit-dev
+BuildRequires : pacrunner
+BuildRequires : pacrunner-dev
 BuildRequires : pcre2-dev
 BuildRequires : pcre2-staticdev
+BuildRequires : pkgconfig(atspi-2)
 BuildRequires : pkgconfig(dbus-1)
 BuildRequires : pkgconfig(freetype2)
 BuildRequires : pkgconfig(gl)
@@ -164,6 +150,7 @@ BuildRequires : pkgconfig(libpcre2-16)
 BuildRequires : pkgconfig(libproxy-1.0)
 BuildRequires : pkgconfig(libudev)
 BuildRequires : pkgconfig(md4c)
+BuildRequires : pkgconfig(mtdev)
 BuildRequires : pkgconfig(sm)
 BuildRequires : pkgconfig(xcb-icccm)
 BuildRequires : pkgconfig(xcb-image)
@@ -172,16 +159,12 @@ BuildRequires : pkgconfig(xcb-renderutil)
 BuildRequires : pkgconfig(xi)
 BuildRequires : pkgconfig(xkbcommon)
 BuildRequires : pkgconfig(xkbcommon-x11)
-BuildRequires : portalocker
 BuildRequires : postgresql-dev
-BuildRequires : pyparsing
 BuildRequires : python3-dev
 BuildRequires : python3-staticdev
 BuildRequires : shared-mime-info
-BuildRequires : six
 BuildRequires : sqlite-autoconf-dev
 BuildRequires : sqlite-autoconf-staticdev
-BuildRequires : sympy
 BuildRequires : syntax-highlighting
 BuildRequires : syntax-highlighting-dev
 BuildRequires : syntax-highlighting-lib
@@ -190,6 +173,7 @@ BuildRequires : tiff-dev
 BuildRequires : tiff-staticdev
 BuildRequires : valgrind-dev
 BuildRequires : wayland
+BuildRequires : wayland-dev
 BuildRequires : weston
 BuildRequires : wmctrl
 BuildRequires : xauth
@@ -238,7 +222,6 @@ BuildRequires : zstd-staticdev
 # Suppress stripping binaries
 %define __strip /bin/true
 %define debug_package %{nil}
-Patch1: tell-the-truth-about-private-api.patch
 
 %description
 This is the QtWayland module.
@@ -249,7 +232,6 @@ Enables Qt applications to be run as Wayland clients.
 %prep
 %setup -q -n qt5
 cd %{_builddir}/qt5
-%patch1 -p1
 
 %build
 unset http_proxy
@@ -257,7 +239,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1612074564
+export SOURCE_DATE_EPOCH=1612088843
 export GCC_IGNORE_WERROR=1
 ## altflags1 content
 export CFLAGS="-O3 -march=native -mtune=native -fgraphite-identity -Wall -Wl,--as-needed -Wl,--build-id=sha1 -Wl,--enable-new-dtags -Wl,--hash-style=gnu -Wl,-O2 -Wl,-z,now -Wl,-z,relro -falign-functions=32 -flimit-function-alignment -fasynchronous-unwind-tables -fdevirtualize-at-ltrans -floop-nest-optimize -fno-math-errno -fno-semantic-interposition -fno-stack-protector -fno-trapping-math -ftree-loop-distribute-patterns -ftree-loop-vectorize -ftree-vectorize -funroll-loops -fuse-ld=bfd -fuse-linker-plugin -malign-data=cacheline -feliminate-unused-debug-types -fipa-pta -flto=12 -fno-plt -mtls-dialect=gnu2 -Wl,-sort-common -Wno-error -Wp,-D_REENTRANT -pipe -ffat-lto-objects -fPIC"
@@ -296,18 +278,21 @@ export QMAKE_CFLAGS="$CFLAGS"
 export QMAKE_CXXFLAGS="$CXXFLAGS"
 export QMAKE_LFLAGS="$LDFLAGS"
 ## altflags1 end
-mkdir ../qt6-static-build
+[ ! -d "../qt6-static-build" ] && mkdir ../qt6-static-build && pushd ../qt6-static-build && ../qt5/configure -release -nomake examples -accessibility -ccache -cups -dbus-linked -prefix /usr/qt6-static -sysconfdir /etc/xdg -egl -eventfd -fontconfig -gbm -glib -gtk -ico -icu -inotify -kms -libproxy -linker bfd -ltcg -no-mimetype-database -no-pch -no-qml-debug -no-rpath -no-separate-debug-info -no-strip -no-use-gold-linker -opengl desktop -opensource -confirm-license -openssl-linked -plugin-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -reduce-relocations -release -optimized-tools -sm -gif -system-doubleconversion -system-freetype -system-harfbuzz -system-libjpeg -system-libpng -system-pcre -system-sqlite -system-zlib -xcb -xcb-xlib -libinput -bundled-xcb-xinput -xkbcommon -avx2 -no-avx512 -c++std c++17 -static -skip qtwayland -- -Wno-dev
+if [ $(basename $PWD) != "qt6-static-build" ]
+then
 pushd ../qt6-static-build
-../qt5/configure -verbose -release -nomake examples -accessibility -ccache -cups -dbus-linked -prefix /usr/qt6-static -sysconfdir /etc/xdg -egl -eventfd -fontconfig -gbm -glib -gtk -ico -icu -inotify -kms -libproxy -linker bfd -ltcg -no-mimetype-database -no-pch -no-qml-debug -no-rpath -no-separate-debug-info -no-strip -no-use-gold-linker -opengl desktop -opensource -confirm-license -openssl-linked -plugin-sql-mysql -plugin-sql-psql -plugin-sql-sqlite -reduce-relocations -release -optimized-tools -sm -gif -system-doubleconversion -system-freetype -system-harfbuzz -system-libjpeg -system-libpng -system-pcre -system-sqlite -system-tiff -system-webp -system-zlib -xcb -xcb-xlib -libinput -bundled-xcb-xinput -xkbcommon -avx2 -no-avx512 -c++std c++17 -static -skip qtwayland -- -Wno-dev -DCMAKE_JOB_POOLS=12
-exit 1
-cmake --verbose --build . --parallel 4
+cmake --build . --parallel 10
+else
+cmake --build . --parallel 10
+fi
 ## ccache stats
 ccache -s
 ## ccache stats
 
 
 %install
-export SOURCE_DATE_EPOCH=1612074564
+export SOURCE_DATE_EPOCH=1612088843
 rm -rf %{buildroot}
 ## install_macro start
 cmake --verbose --install .

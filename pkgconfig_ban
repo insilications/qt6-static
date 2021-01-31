@@ -2,3 +2,6 @@
 # but are undesirable. One entry per line, no whitespace.
 QtGui
 QtTest
+directfb
+libb2
+tslib

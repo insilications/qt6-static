@@ -1,1 +1,7 @@
-cmake --verbose --build . --parallel 12
+if [ $(basename $PWD) != "qt6-static-build" ] 
+then
+    pushd ../qt6-static-build
+    cmake --build . --parallel 10
+else
+    cmake --build . --parallel 10
+fi

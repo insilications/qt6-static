@@ -1,0 +1,8 @@
+1
+jasper-dev
+pkgconfig(atspi-2)
+pkgconfig(directfb)
+pkgconfig(libb2)
+pkgconfig(mtdev)
+pkgconfig(tslib)
+wayland-dev

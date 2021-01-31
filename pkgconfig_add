@@ -20,3 +20,5 @@ xcb-renderutil
 xi
 xkbcommon
 xkbcommon-x11
+atspi-2
+mtdev

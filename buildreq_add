@@ -30,8 +30,11 @@ glibc-dev
 glibc-staticdev
 glib-dev
 gtk3-lib
+gtk3-dev
 gtk+-data
 gtk+-lib
+gtk+
+gtk+-dev
 harfbuzz
 harfbuzz-dev
 harfbuzz-lib
@@ -127,6 +130,7 @@ Vulkan-Headers-dev
 Vulkan-Loader-dev
 Vulkan-Tools
 wayland
+wayland-dev
 weston
 wmctrl
 xauth
@@ -147,6 +151,8 @@ xf86-video-vesa
 xf86-video-vmware
 xfontsel
 xhost
+pacrunner
+pacrunner-dev
 xinit
 xinput
 xkbcomp
