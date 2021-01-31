@@ -4,7 +4,8 @@ assimp
 assimp-dev
 assimp-staticdev
 buildreq-cmake
-cmake
+buildreq-configure
+cmake-dev
 cups-dev
 dbus-dev
 dbus-staticdev
@@ -95,6 +96,7 @@ mesa
 mesa-dev
 mesa-lib
 ncurses-dev
+ninja
 nvidia
 nvidia-bin
 nvidia-data
