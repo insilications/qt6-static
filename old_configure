@@ -1,0 +1,63 @@
+-accessibility
+-ccache
+-cups
+-dbus-linked
+-prefix /usr/qt6-static
+-archdatadir /usr/lib64/qt5
+-datadir /usr/share/qt5
+-docdir /usr/share/doc/qt5
+-headerdir /usr/include/qt5
+-sysconfdir /etc/xdg
+-egl
+-eventfd
+-fontconfig
+-gbm
+-glib
+-gtk
+-ico
+-icu
+-inotify
+-kms
+-libproxy
+-linker bfd
+-ltcg
+-no-mimetype-database
+-no-pch
+-no-qml-debug
+-no-rpath
+-no-separate-debug-info
+-no-strip
+-no-use-gold-linker
+-opengl desktop
+-opensource
+-confirm-license
+-openssl-linked
+-plugin-sql-mysql
+-plugin-sql-psql
+-plugin-sql-sqlite
+-reduce-relocations
+-release
+-optimized-tools
+-sm
+-gif
+-system-doubleconversion
+-system-freetype
+-system-harfbuzz
+-system-libjpeg
+-system-libpng
+-system-pcre
+-system-sqlite
+-system-tiff
+-system-webp
+-system-zlib
+-xcb
+-xcb-xlib
+-xinput2
+-bundled-xcb-xinput
+-xkbcommon
+-c++std c++17
+-shared
+-static
+QMAKE_CFLAGS="$CFLAGS"
+QMAKE_CXXFLAGS="$CXXFLAGS"
+QMAKE_LFLAGS="$LDFLAGS"
