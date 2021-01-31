@@ -2,6 +2,7 @@
 # picked up automatically. One name per line, no whitespace.binutils-dev
 assimp
 assimp-dev
+assimp-staticdev
 buildreq-cmake
 cmake
 cups-dev

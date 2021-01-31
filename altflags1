@@ -34,4 +34,7 @@ export LD_LIBRARY_PATH="/usr/cuda/lib64:/usr/nvidia/lib64:/usr/nvidia/lib:/usr/n
 export VDPAU_DRIVER=nvidia
 export LIBVA_DRIVER_NAME=vdpau
 export LIBVA_DRIVERS_PATH=/usr/lib64/dri
-#export LD_LIBRARY_PATH="/opt/nvidia/lib:/opt/nvidia/lib/vdpau:/opt/nvidia/lib64/xorg/modules/drivers:/opt/nvidia/lib64/xorg/modules/extensions:/opt/nvidia/lib64:/opt/nvidia/lib32:/opt/nvidia/lib32/vdpau:/opt/cuda/lib64:/usr/lib64/dri:/usr/lib64/haswell:/usr/lib64/chromium:/usr/lib64:/usr/lib:/usr/lib32:/usr/lib64/wine:/usr/lib32/wine:/usr/share:/usr/lib64/pulseaudio"
+#
+export QMAKE_CFLAGS="$CFLAGS"
+export QMAKE_CXXFLAGS="$CXXFLAGS"
+export QMAKE_LFLAGS="$LDFLAGS"
