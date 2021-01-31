@@ -1,1 +1,1 @@
-cmake --verbose --build . --parallel 4
+cmake --verbose --build . --parallel 12

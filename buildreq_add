@@ -83,7 +83,6 @@ libXScrnSaver-lib
 libXtst-dev
 libXtst-lib
 litehtml-dev
-litehtml-staticdev
 llvm11
 llvm11-bin
 llvm11-data
@@ -128,14 +127,13 @@ Vulkan-Headers-dev
 Vulkan-Loader-dev
 Vulkan-Tools
 wayland
-wayland-client
-wayland-egl
-wayland-server
 weston
 wmctrl
 xauth
 xclip
-xcomposite
+libX11
+libX11-dev
+libXcomposite-dev
 xdotool
 xdpyinfo
 xf86-input-libinput
@@ -151,7 +149,6 @@ xfontsel
 xhost
 xinit
 xinput
-xkbcommon
 xkbcomp
 xkeyboard-config
 xkill
